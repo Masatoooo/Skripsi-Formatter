@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skripsi-formatter.local/schemas/profile.schema.json",
+  "title": "RuleProfile",
+  "description": "Skema profil aturan penulisan dokumen kampus/fakultas untuk Skripsi Formatter",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "name",
+    "version",
+    "language",
+    "source",
+    "page",
+    "text",
+    "roles",
+    "page_numbering",
+    "structure",
+    "toc",
+    "captions"
+  ],
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "default": "id"
+    },
+    "extends": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": ["document", "edition"],
+      "properties": {
+        "document": { "type": "string" },
+        "edition": { "type": "string" },
+        "pages": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "page": {
+      "type": "object",
+      "required": ["size", "orientation", "margins_cm"],
+      "properties": {
+        "size": {
+          "type": "string",
+          "enum": ["A4", "Letter", "Legal"]
+        },
+        "orientation": {
+          "type": "string",
+          "enum": ["portrait", "landscape"],
+          "default": "portrait"
+        },
+        "margins_cm": {
+          "type": "object",
+          "required": ["top", "left", "bottom", "right"],
+          "properties": {
+            "top": { "type": "number", "minimum": 0 },
+            "left": { "type": "number", "minimum": 0 },
+            "bottom": { "type": "number", "minimum": 0 },
+            "right": { "type": "number", "minimum": 0 }
+          }
+        },
+        "header_footer_distance_cm": {
+          "type": "object",
+          "properties": {
+            "header": { "type": "number", "minimum": 0 },
+            "footer": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "text": {
+      "type": "object",
+      "required": ["font_family", "font_size_pt"],
+      "properties": {
+        "font_family": { "type": "string" },
+        "font_size_pt": { "type": "number", "minimum": 6, "maximum": 72 },
+        "color_hex": { "type": "string", "default": "000000" }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "text_pattern": { "type": "string" },
+          "bold": { "type": "boolean" },
+          "italic": { "type": "boolean" },
+          "all_caps": { "type": "boolean" },
+          "alignment": {
+            "type": "string",
+            "enum": ["left", "center", "right", "justify"]
+          },
+          "font_family": { "type": "string" },
+          "font_size_pt": { "type": "number" },
+          "line_spacing": { "type": "number" },
+          "space_before_pt": { "type": "number" },
+          "space_after_pt": { "type": "number" },
+          "first_line_indent_cm": { "type": "number" },
+          "left_indent_cm": { "type": "number" },
+          "right_indent_cm": { "type": "number" },
+          "hanging_indent_cm": { "type": "number" },
+          "numbering": { "type": "string" },
+          "keep_with_next": { "type": "boolean" },
+          "page_break_before": { "type": "boolean" }
+        }
+      }
+    },
+    "page_numbering": {
+      "type": "object",
+      "required": ["cover", "front_matter", "body"],
+      "properties": {
+        "cover": {
+          "type": "object",
+          "properties": {
+            "numbered": { "type": "boolean" }
+          }
+        },
+        "front_matter": {
+          "type": "object",
+          "properties": {
+            "format": { "type": "string", "enum": ["lowerRoman", "upperRoman", "decimal"] },
+            "start": { "type": "integer" },
+            "position": { "type": "string" }
+          }
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "format": { "type": "string", "enum": ["decimal", "lowerRoman", "upperRoman"] },
+            "start": { "type": "integer" },
+            "position": { "type": "string" },
+            "chapter_first_page": {
+              "type": "object",
+              "properties": {
+                "position": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "required": ["sections"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "match", "group", "required"],
+            "properties": {
+              "id": { "type": "string" },
+              "match": { "type": "string" },
+              "group": { "type": "string", "enum": ["cover", "front_matter", "body"] },
+              "required": { "type": "boolean" },
+              "new_page": { "type": "boolean" }
+            }
+          }
+        },
+        "enforce_order": { "type": "boolean", "default": true }
+      }
+    },
+    "toc": {
+      "type": "object",
+      "required": ["title", "levels"],
+      "properties": {
+        "title": { "type": "string" },
+        "levels": { "type": "integer", "minimum": 1, "maximum": 9 },
+        "leader": { "type": "string", "enum": ["dots", "hyphens", "underline", "none"] },
+        "right_align_page_numbers": { "type": "boolean" },
+        "list_of_figures": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "title": { "type": "string" }
+          }
+        },
+        "list_of_tables": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "title": { "type": "string" }
+          }
+        }
+      }
+    },
+    "captions": {
+      "type": "object",
+      "required": ["figure", "table"],
+      "properties": {
+        "figure": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "position": { "type": "string", "enum": ["above", "below"] },
+            "numbering": { "type": "string", "enum": ["continuous", "per_chapter"] },
+            "separator": { "type": "string" }
+          }
+        },
+        "table": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "position": { "type": "string", "enum": ["above", "below"] },
+            "numbering": { "type": "string", "enum": ["continuous", "per_chapter"] },
+            "separator": { "type": "string" }
+          }
+        }
+      }
+    },
+    "tolerances": {
+      "type": "object",
+      "properties": {
+        "margin_cm": { "type": "number", "default": 0.05 },
+        "indent_cm": { "type": "number", "default": 0.05 },
+        "font_size_pt": { "type": "number", "default": 0 },
+        "spacing_pt": { "type": "number", "default": 0.5 },
+        "line_spacing": { "type": "number", "default": 0.02 }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "enabled": { "type": "boolean", "default": true },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "fix_mode": { "type": "string", "enum": ["auto", "suggest", "manual"] }
+        }
+      }
+    }
+  }
+}

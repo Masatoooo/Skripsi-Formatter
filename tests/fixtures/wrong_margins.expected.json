@@ -1,0 +1,6 @@
+{
+  "fixture": "wrong_margins.docx",
+  "expected_rules": [
+    "PAGE-002"
+  ]
+}

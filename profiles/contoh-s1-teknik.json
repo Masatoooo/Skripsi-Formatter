@@ -1,0 +1,27 @@
+{
+  "profile_id": "contoh-s1-teknik",
+  "name": "CONTOH: Tugas Akhir S1 Fakultas Teknik (Turunan extends)",
+  "version": "0.1.0",
+  "language": "id",
+  "extends": "contoh-s1-skripsi",
+  "source": {
+    "document": "Pedoman Tugas Akhir Fakultas Teknik (CONTOH)",
+    "edition": "2024",
+    "pages": "Halaman 1-42",
+    "notes": "Profil contoh yang mewarisi contoh-s1-skripsi dengan penomoran caption berkelanjutan (continuous)."
+  },
+  "captions": {
+    "figure": {
+      "label": "Gambar",
+      "position": "below",
+      "numbering": "continuous",
+      "separator": "."
+    },
+    "table": {
+      "label": "Tabel",
+      "position": "above",
+      "numbering": "continuous",
+      "separator": "."
+    }
+  }
+}

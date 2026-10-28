@@ -1,0 +1,5 @@
+{
+  "fixture": "clean_styled.docx",
+  "expected_total_findings": 0,
+  "expected_rules": []
+}
